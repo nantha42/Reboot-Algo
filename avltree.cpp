@@ -50,6 +50,7 @@ class AVL
     Node* balance(Node *node)
     {
         int b = getbalance(node);
+        cout<<"balance of "<<node->x<<"is "<<b<<endl;
         if(b > 1)
         {
             Node* left = node->left;
@@ -76,6 +77,7 @@ class AVL
                 return rotateR(node);
             }
         }
+        return node;
     }
 
     void insert(int x)
@@ -90,8 +92,6 @@ class AVL
         }
         else
         {
-            print();
-            cout<<endl;
             start = insertAndBalance(x, start);
             cout<<"returned start: "<<start->x<<endl;
         }
@@ -125,7 +125,6 @@ class AVL
             Node* left = node->left;
             if(left == NULL)
             {
-               cout<<"Inserting at left of "<<node->x<<endl;
                node->left = new Node(); 
                node->left->x = x;
                node->left->left = NULL;
@@ -148,20 +147,19 @@ class AVL
             Node* right = node->right;
             if(right == NULL)
             {
-                cout<<"Inserting at right of "<<node->x<<endl;
                node->right = new Node(); 
                node->right->x = x;
                node->right->left = NULL;
                node->right->right = NULL;
                node->right->height = 1;
 
-               node->height = max(getheight(node->left),getheight(node->right)) + 1;
+               computeheight(node);
                return node;
             }
             else
             {
                 node->right = insertAndBalance(x, node->right);
-                node->height = max(getheight(node->left),getheight(node->right)) + 1;
+                computeheight(node);
                 node = balance(node);
                 return node;
             }
@@ -193,8 +191,11 @@ int main()
 
     avl.insert(1);
     avl.insert(2);
-    avl.insert(3);
     avl.insert(4);
+    avl.insert(3);
+    avl.insert(5);
+    avl.insert(6);
+    avl.insert(7);
     avl.print();
     
 }
